@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ink Masters Studio | Tattoo & Piercing</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#090909;color:#f4f4f4;line-height:1.6;
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    .container{width:min(1120px,92%);margin:auto}
+    header{
+      position:fixed;top:0;left:0;width:100%;z-index:1000;
+      background:rgba(5,5,5,.94);border-bottom:1px solid #252525;
+      backdrop-filter:blur(10px)
+    }
+    nav{
+      min-height:72px;display:flex;align-items:center;justify-content:space-between;
+      gap:20px
+    }
+    .logo{font-size:1.35rem;font-weight:900;letter-spacing:2px}
+    .logo span{color:#e31b23}
+    .nav-links{display:flex;gap:24px;list-style:none}
+    .nav-links a{color:#ddd;font-size:.95rem;transition:.25s}
+    .nav-links a:hover{color:#e31b23}
+    .menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.7rem;cursor:pointer}
+
+    .hero{
+      min-height:100vh;display:flex;align-items:center;
+      background:
+        linear-gradient(90deg,rgba(0,0,0,.93),rgba(0,0,0,.55),rgba(0,0,0,.86)),
+        radial-gradient(circle at 75% 35%,#401015 0,#150b0d 28%,#090909 65%);
+      padding-top:72px
+    }
+    .hero-content{max-width:720px}
+    .eyebrow{color:#e31b23;text-transform:uppercase;letter-spacing:4px;font-weight:bold;margin-bottom:12px}
+    h1{font-size:clamp(3rem,8vw,6.2rem);line-height:.95;text-transform:uppercase}
+    h1 span{color:#e31b23}
+    .hero p{max-width:650px;color:#c8c8c8;font-size:1.1rem;margin:25px 0}
+    .buttons{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{
+      display:inline-block;padding:13px 22px;border-radius:4px;font-weight:800;
+      border:1px solid #e31b23;cursor:pointer;transition:.25s
+    }
+    .btn-primary{background:#e31b23;color:#fff}
+    .btn-primary:hover{background:#b9131a}
+    .btn-outline{background:transparent;color:#fff}
+    .btn-outline:hover{background:#fff;color:#000;border-color:#fff}
+
+    section{padding:90px 0}
+    .section-title{text-align:center;margin-bottom:42px}
+    .section-title h2{font-size:2.5rem;text-transform:uppercase}
+    .section-title p{color:#999;margin-top:8px}
+
+    .about{background:#0f0f0f}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center}
+    .about-box{
+      border:1px solid #292929;padding:28px;background:#0b0b0b;
+      box-shadow:0 20px 60px rgba(0,0,0,.25)
+    }
+    .about-box h3{font-size:1.6rem;margin-bottom:12px}
+    .about-box p{color:#bbb}
+    .checks{list-style:none;margin-top:20px}
+    .checks li{margin:10px 0;color:#ddd}
+    .checks li::before{content:"✓";color:#e31b23;font-weight:bold;margin-right:10px}
+
+    .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+    .card{
+      background:#111;border:1px solid #282828;padding:22px;min-height:190px;
+      transition:.25s
+    }
+    .card:hover{transform:translateY(-6px);border-color:#e31b23}
+    .icon{font-size:2rem;margin-bottom:14px}
+    .card h3{margin-bottom:7px}
+    .card p{color:#999;font-size:.92rem}
+
+    .gallery{background:#0f0f0f}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .gallery-item{
+      min-height:240px;position:relative;overflow:hidden;border:1px solid #292929;
+      background:#111
+    }
+    .gallery-item img{
+      width:100%;height:100%;min-height:240px;object-fit:cover;display:block;
+      filter:brightness(.72);transition:transform .45s,filter .45s
+    }
+    .gallery-item:hover img{transform:scale(1.07);filter:brightness(.9)}
+    .gallery-label{
+      position:absolute;bottom:0;left:0;right:0;padding:18px;
+      background:linear-gradient(transparent,rgba(0,0,0,.95));font-weight:bold
+    }
+
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .price-card{
+      background:#101010;border:1px solid #2a2a2a;padding:30px;text-align:center
+    }
+    .price-card.featured{border-color:#e31b23;transform:translateY(-8px)}
+    .price{font-size:2rem;font-weight:900;margin:15px 0;color:#e31b23}
+    .price-card ul{list-style:none;color:#aaa;margin-bottom:22px}
+    .price-card li{padding:6px}
+
+    .appointment{background:#0f0f0f}
+    form{max-width:850px;margin:auto;background:#0a0a0a;border:1px solid #292929;padding:30px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .field.full{grid-column:1/-1}
+    label{font-size:.9rem;color:#ccc}
+    input,select,textarea{
+      background:#141414;border:1px solid #303030;color:#fff;padding:12px;
+      border-radius:4px;outline:none
+    }
+    input:focus,select:focus,textarea:focus{border-color:#e31b23}
+    textarea{min-height:130px;resize:vertical}
+    .form-message{margin-top:15px;color:#7ee787;display:none}
+
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+    .contact-box{background:#101010;border:1px solid #292929;padding:28px}
+    .contact-box h3{margin-bottom:10px}
+    .contact-box p{color:#aaa;margin:8px 0}
+    .contact-box a.map-link{color:#e31b23;text-decoration:underline;font-weight:bold}
+    .contact-box a.map-link:hover{color:#fff}
+    footer{padding:28px 0;border-top:1px solid #242424;background:#050505;text-align:center;color:#777}
+    footer strong{color:#eee}
+
+    @media(max-width:900px){
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .about-grid,.contact-grid{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
+      .price-card.featured{transform:none}
+    }
+    @media(max-width:700px){
+      .menu-btn{display:block}
+      .nav-links{
+        display:none;position:absolute;top:72px;left:0;width:100%;
+        background:#080808;border-bottom:1px solid #222;padding:20px;
+        flex-direction:column
+      }
+      .nav-links.active{display:flex}
+      .cards,.gallery-grid,.form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      section{padding:70px 0}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a class="logo" href="#inicio">INK <span>MASTERS</span></a>
+      <button class="menu-btn" aria-label="Abrir menú">☰</button>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#portafolio">Portafolio</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#cita">Citas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow">Tattoo • Piercing • Art</div>
+        <h1>Ink Masters<br><span>Studio</span></h1>
+        <p>
+          Diseños personalizados y tatuajes en diferentes estilos, con atención
+          profesional, segura e higiénica.
+        </p>
+        <div class="buttons">
+          <a class="btn btn-primary" href="#cita">Agendar cita</a>
+          <a class="btn btn-outline" href="#portafolio">Ver portafolio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <div class="eyebrow">Nuestra propuesta</div>
+          <h2>Tu idea. Nuestro arte.</h2>
+          <p style="color:#aaa;margin-top:15px">
+            Ink Masters Studio ofrece diseños personalizados, tatuajes,
+            perforaciones y asesoría para el cuidado del tatuaje.
+          </p>
+        </div>
+        <div class="about-box">
+          <h3>¿Por qué Ink Masters?</h3>
+          <ul class="checks">
+            <li>Diseños personalizados</li>
+            <li>Atención al cliente</li>
+            <li>Información y promociones</li>
+            <li>Agenda de citas</li>
+            <li>Contacto directo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios">
+    <div class="container">
+      <div class="section-title">
+        <h2>Servicios</h2>
+        <p>Encuentra el estilo que quieres llevar contigo.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="icon">🖤</div><h3>Realismo</h3><p>Diseños detallados y personalizados.</p></article>
+        <article class="card"><div class="icon">⚓</div><h3>Tradicional</h3><p>Estilo clásico con diseños llenos de carácter.</p></article>
+        <article class="card"><div class="icon">🎌</div><h3>Anime</h3><p>Diseños inspirados en el mundo del anime.</p></article>
+        <article class="card"><div class="icon">✦</div><h3>Minimalista</h3><p>Diseños sencillos, limpios y personalizados.</p></article>
+        <article class="card"><div class="icon">✍️</div><h3>Lettering</h3><p>Palabras y frases convertidas en arte.</p></article>
+      </div>
+      <div class="cards" style="margin-top:16px;grid-template-columns:repeat(2,1fr)">
+        <article class="card"><div class="icon">💎</div><h3>Perforaciones</h3><p>Servicio de perforaciones dentro de la propuesta del estudio.</p></article>
+        <article class="card"><div class="icon">🧴</div><h3>Cuidado del tatuaje</h3><p>Asesoría para el cuidado posterior del tatuaje.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="portafolio">
+    <div class="container">
+      <div class="section-title">
+        <h2>Portafolio</h2>
+        <p>Galería de estilos de Ink Masters Studio.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?auto=format&fit=crop&w=900&q=80" alt="Tatuaje Realismo">
+          <div class="gallery-label">Realismo</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1542727365-19732a80dcfd?auto=format&fit=crop&w=900&q=80" alt="Tatuaje Tradicional">
+          <div class="gallery-label">Tradicional</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=900&q=80" alt="Tatuaje Anime">
+          <div class="gallery-label">Anime</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&w=900&q=80" alt="Tatuaje Minimalista">
+          <div class="gallery-label">Minimalista</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?auto=format&fit=crop&w=900&q=80" alt="Tatuaje Lettering">
+          <div class="gallery-label">Lettering</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?auto=format&fit=crop&w=900&q=80" alt="Diseño personalizado">
+          <div class="gallery-label">Diseño personalizado</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="precios">
+    <div class="container">
+      <div class="section-title">
+        <h2>Precios</h2>
+        <p>Precios demostrativos para la interfaz del proyecto.</p>
+      </div>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Minimalista</h3>
+          <div class="price">Desde $500</div>
+          <ul><li>Diseño personalizado</li><li>Tamaño pequeño</li><li>Asesoría de cuidado</li></ul>
+          <a href="#cita" class="btn btn-outline">Consultar</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Personalizado</h3>
+          <div class="price">Desde $1,000</div>
+          <ul><li>Diseño personalizado</li><li>Elección de estilo</li><li>Asesoría de cuidado</li></ul>
+          <a href="#cita" class="btn btn-primary">Agendar</a>
+        </div>
+        <div class="price-card">
+          <h3>Proyecto especial</h3>
+          <div class="price">Cotización</div>
+          <ul><li>Diseño personalizado</li><li>Proyecto de mayor tamaño</li><li>Valoración previa</li></ul>
+          <a href="#cita" class="btn btn-outline">Consultar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="appointment" id="cita">
+    <div class="container">
+      <div class="section-title">
+        <h2>Agenda tu cita</h2>
+        <p>Completa el formulario y envía tu solicitud.</p>
+      </div>
+      <form id="appointmentForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Nombre completo</label>
+            <input id="name" type="text" required placeholder="Tu nombre">
+          </div>
+          <div class="field">
+            <label for="phone">Teléfono</label>
+            <input id="phone" type="tel" required placeholder="Tu teléfono">
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" type="email" required placeholder="tu@correo.com">
+          </div>
+          <div class="field">
+            <label for="style">Estilo</label>
+            <select id="style" required>
+              <option value="">Selecciona</option>
+              <option>Realismo</option>
+              <option>Tradicional</option>
+              <option>Anime</option>
+              <option>Minimalista</option>
+              <option>Lettering</option>
+              <option>Perforación</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Fecha</label>
+            <input id="date" type="date" required>
+          </div>
+          <div class="field">
+            <label for="time">Hora</label>
+            <input id="time" type="time" required>
+          </div>
+          <div class="field full">
+            <label for="details">Cuéntanos sobre tu idea</label>
+            <textarea id="details" placeholder="Describe el diseño que tienes en mente..."></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn btn-primary" type="submit">Enviar solicitud de cita</button>
+          </div>
+        </div>
+        <p class="form-message" id="formMessage">
+          ✓ Solicitud enviada correctamente. Esta demostración no conecta con una base de datos.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="container">
+      <div class="section-title">
+        <h2>Contacto</h2>
+        <p>Estamos listos para conocer tu idea.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-box">
+          <h3>Ink Masters Studio</h3>
+          <p>📍 Plaza Las Américas, Av. Tulum, Cancún, Q.R.</p>
+          <p>🗺️ <a class="map-link" href="https://www.google.com/maps/search/Plaza+Las+Americas+Cancun" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a></p>
+          <p>📞 Teléfono: <a href="tel:9981118839">998 111 8839</a></p>
+          <p>✉️ Correo: <a href="mailto:saidpastor034@gmail.com">saidpastor034@gmail.com</a></p>
+        </div>
+        <div class="contact-box">
+          <h3>Horario</h3>
+          <p>Consulta disponibilidad al momento de agendar tu cita.</p>
+          <a class="btn btn-primary" href="#cita" style="margin-top:12px">Solicitar cita</a>
+        </div>
+      </div>
+
+      <div class="comments-box" style="margin-top:28px">
+        <div class="contact-box">
+          <h3>💬 Comparte tu experiencia</h3>
+          <p style="color:#aaa;margin-bottom:18px">
+            Cuéntanos cómo fue tu experiencia en Ink Masters Studio.
+          </p>
+          <form id="commentForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="commentName">Nombre</label>
+                <input id="commentName" type="text" required placeholder="Tu nombre">
+              </div>
+              <div class="field">
+                <label for="rating">Calificación</label>
+                <select id="rating" required>
+                  <option value="">Selecciona</option>
+                  <option>★★★★★ Excelente</option>
+                  <option>★★★★ Muy buena</option>
+                  <option>★★★ Buena</option>
+                  <option>★★ Regular</option>
+                  <option>★ Necesita mejorar</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="commentText">Tu experiencia</label>
+                <textarea id="commentText" required placeholder="Escribe aquí tu experiencia..."></textarea>
+              </div>
+              <div class="field full">
+                <button class="btn btn-primary" type="submit">Publicar comentario</button>
+              </div>
+            </div>
+          </form>
+          <div id="commentsList" style="margin-top:25px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 <strong>Ink Masters Studio</strong> | Proyecto Final - Actividad #6</p>
+  <p>Said Jafet Pastor Romero · Lista 25</p>
+</footer>
+
+<script>
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+
+  menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('active'));
+  });
+
+  const form = document.getElementById('appointmentForm');
+  const message = document.getElementById('formMessage');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    message.style.display = 'block';
+    form.reset();
+    setTimeout(() => message.style.display = 'none', 6000);
+  });
+
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+
+  const commentForm = document.getElementById('commentForm');
+  const commentsList = document.getElementById('commentsList');
+
+  commentForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('commentName').value;
+    const rating = document.getElementById('rating').value;
+    const text = document.getElementById('commentText').value;
+
+    const comment = document.createElement('div');
+    comment.style.cssText =
+      'border:1px solid #292929;background:#0b0b0b;padding:18px;margin-top:12px;border-radius:4px';
+    comment.innerHTML = `
+      <strong>${escapeHTML(name)}</strong>
+      <span style="color:#e31b23;margin-left:10px">${escapeHTML(rating)}</span>
+      <p style="color:#bbb;margin-top:8px">${escapeHTML(text)}</p>
+    `;
+
+    commentsList.prepend(comment);
+    commentForm.reset();
+  });
+
+  function escapeHTML(value) {
+    const div = document.createElement('div');
+    div.textContent = value;
+    return div.innerHTML;
+  }
+</script>
+</body>
+</html>
